@@ -28,7 +28,7 @@ an element of the array)
 5.       Continues forever
 */
 
-int global = 0;
+int global = 3;
 int arr[2];
 
 sem *par;
@@ -37,79 +37,86 @@ sem *par;
 void func0(){
 	for(int i = 0; i < 3; i++)
 		{
-		arr[i] = 0;
-		//printf("%d: \n", arr[i]); 
+		arr[i] = 0; 
 		}
 	
 	for(;;)
 	{
-		global++;
-		
+		printf("global: %d \n",global);		
 		P(par);//wait for par
 		P(par);
 		P(par);
 		sleep(1);
 		printf("\n");
-					
-		for(int i =0; i < 3; i++)
+		if (global ==0)
 		{
-			printf("child%d: %d \n",i+1, arr[i]); 
-		}
-		global--;
+			global = 3;
+			for(int i =0; i < 3; i++)
+			{
+				printf("child%d: %d \n",i+1, arr[i]);			
+			}
+		}		
 		V(par);
 		V(par);
-		V(par);
-			
+		V(par);			
 	}
 }
 void func1(){
 	for(;;)
-	{			
-		while (global = 1)// && !(arr[0] > arr[1]) && !(arr[0] >arr[2]))
-		{
-			P(par);
-			arr[0]++;
-			
-			for(int i =0; i < 3; i++)
-			{
-				printf("func 1 child%d: %d \n",i+1, arr[i]); 
-			}
-			V(par);
-		}
+	{
+		P(par);
 		
+			if(global == 1 && !(arr[0] > arr[1] )&& !(arr[0] > arr[2]) )
+			{
+				
+				arr[0]++;
+				
+				for(int i =0; i < 3; i++)
+				{
+					printf("func 1 child%d: %d \n",i+1, arr[i]); 
+				}
+				
+				global--;
+				sleep(1);
+			}	
+		V(par);			
 	}
 	
 }
 void func2(){
 	for(;;)
-	{			
-		while (global = 1)//&& !(arr[1] > arr[0]) && !(arr[1] >arr[2]))
-		{
-			P(par);
+	{	
+		P(par);
+		if(global == 2 && !(arr[1] > arr[0] )&& !(arr[1] > arr[2]))
+		{	
 			arr[1]++;			
 			for(int i =0; i < 3; i++)
 			{
 				printf("func 2 child%d: %d \n",i+1, arr[i]); 
 			}
-			V(par);
+			
+			global--;
+			sleep(1);	
 		}
-		
+		V(par);
 	}
 }
 void func3(){
 	for(;;)
 	{	
-		while (global = 1 )//&& !(arr[2] > arr[1]) && !(arr[2] >arr[0]))
-		{		
-			P(par);
+		P(par);
+		if(global == 3 && !(arr[2] > arr[1] )&& !(arr[2] > arr[0]))
+		{			
 			arr[2]++;
 			for(int i =0; i < 3; i++)
 			{
 				printf("func 3 child%d: %d \n",i+1, arr[i]); 
 			}
-			V(par);
+			
+			global--;
+			sleep(1);	
 		}
-		
+		V(par);
 	}
 }
 
