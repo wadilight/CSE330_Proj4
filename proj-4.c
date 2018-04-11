@@ -69,11 +69,12 @@ void func1(){
 		{
 			P(par);
 			arr[0]++;
-			V(par);
+			
 			for(int i =0; i < 3; i++)
 			{
 				printf("func 1 child%d: %d \n",i+1, arr[i]); 
 			}
+			V(par);
 		}
 		
 	}
@@ -85,12 +86,12 @@ void func2(){
 		while (global = 1)//&& !(arr[1] > arr[0]) && !(arr[1] >arr[2]))
 		{
 			P(par);
-			arr[1]++;	
-			V(par);
+			arr[1]++;			
 			for(int i =0; i < 3; i++)
 			{
 				printf("func 2 child%d: %d \n",i+1, arr[i]); 
 			}
+			V(par);
 		}
 		
 	}
@@ -102,11 +103,11 @@ void func3(){
 		{		
 			P(par);
 			arr[2]++;
-			V(par);
 			for(int i =0; i < 3; i++)
 			{
 				printf("func 3 child%d: %d \n",i+1, arr[i]); 
 			}
+			V(par);
 		}
 		
 	}
