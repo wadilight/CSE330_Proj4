@@ -82,8 +82,6 @@ void func2(){
 				printf("func 2 child%d: %d \n",i+1, arr[i]); 
 			}
 			V(child);
-		
-		
 	}
 }
 void func3(){
@@ -97,7 +95,6 @@ void func3(){
 				printf("func 3 child%d: %d \n",i+1, arr[i]); 
 			}
 			V(child);
-		
 	}
 }
 
