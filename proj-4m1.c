@@ -8,26 +8,6 @@ Project 4
 #include <unistd.h>
 #include "sem.h"
 
-
-/*
-1.       The main (parent) thread initializes 
-an array of 3 integers to zero.
-
-2.       The parent creates 3 children. Child
- i adds 1 to array[i], where i = 0, 1, 2. Order 
- not important.
-
-3.       The parent waits for the children to 
-finish adding, and then prints the values in 
-the array.
-
-4.       The children wait for the parent to 
-finish printing and then repeats (adds 1 to 
-an element of the array)
-
-5.       Continues forever
-*/
-
 int arr[2];
 
 sem *par;
@@ -38,6 +18,7 @@ void func0(){
 	for(int i = 0; i < 3; i++)
 		{
 		arr[i] = 0;
+		printf("child%d: %d \n",i+1, arr[i]);
 		}
 	
 	for(;;)
@@ -47,7 +28,7 @@ void func0(){
 		P(child);
 		
 		sleep(1);
-					
+		printf("\n");			
 		for(int i =0; i < 3; i++)
 		{
 			printf("child%d: %d \n",i+1, arr[i]); 
@@ -62,11 +43,6 @@ void func1(){
 	{	
 			P(par);
 			arr[0]++;
-			
-			for(int i =0; i < 3; i++)
-			{
-				printf("func 1 child%d: %d \n",i+1, arr[i]); 
-			}
 			V(child);		
 	}
 	
@@ -75,12 +51,7 @@ void func2(){
 	for(;;)
 	{	
 			P(par);
-			arr[1]++;	
-			
-			for(int i =0; i < 3; i++)
-			{
-				printf("func 2 child%d: %d \n",i+1, arr[i]); 
-			}
+			arr[1]++;
 			V(child);
 	}
 }
@@ -89,11 +60,6 @@ void func3(){
 	{
 			P(par);
 			arr[2]++;
-			
-			for(int i =0; i < 3; i++)
-			{
-				printf("func 3 child%d: %d \n",i+1, arr[i]); 
-			}
 			V(child);
 	}
 }
